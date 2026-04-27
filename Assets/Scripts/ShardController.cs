@@ -23,7 +23,7 @@ public class ShardController : MonoBehaviour
 
     private void Update()
     {
-        shardRb.velocity = new Vector2(shardDir * shardSpeed, 0f);
+        shardRb.linearVelocity = new Vector2(shardDir * shardSpeed, 0f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

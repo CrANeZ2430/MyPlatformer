@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
     {
         if (!IsDashing)
         {
-            playerRb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, playerRb.velocity.y);
+            playerRb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, playerRb.linearVelocity.y);
         }
 
         transform.localScale = new Vector3(playerLastDir, 1f, 1f);
@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
         playerRb.gravityScale = 0f;
         SetSprite(dashImage, isDashingSprite);
 
-        playerRb.velocity = new Vector2(dashDir * dashSpeed, 0f);
+        playerRb.linearVelocity = new Vector2(dashDir * dashSpeed, 0f);
         playerLastDir = dashDir;
         playerTr.emitting = true;
 
@@ -118,7 +118,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator Jump()
     {
-        playerRb.velocity = new Vector2(playerRb.velocity.x, 0f);
+        playerRb.linearVelocity = new Vector2(playerRb.linearVelocity.x, 0f);
         float originalScale = playerRb.gravityScale;
         playerRb.gravityScale = 0f;
 
