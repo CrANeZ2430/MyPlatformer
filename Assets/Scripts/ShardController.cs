@@ -12,7 +12,7 @@ public class ShardController : MonoBehaviour
     private void Awake()
     {
         shardRb = GetComponent<Rigidbody2D>();
-        playerComponent = FindObjectOfType<Player>();
+        playerComponent = FindAnyObjectByType<Player>();
     }
 
     private void Start()
