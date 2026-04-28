@@ -14,8 +14,8 @@ public class MoveablePlatformController : MonoBehaviour
 
     private void Awake()
     {
-        playerComponent = FindObjectOfType<Player>();
-        uiComponent = FindObjectOfType<UI>();
+        playerComponent = FindAnyObjectByType<Player>();
+        uiComponent = FindAnyObjectByType<UI>();
     }
 
     private void Start()

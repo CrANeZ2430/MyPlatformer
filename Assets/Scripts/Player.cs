@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody2D>();
         playerTr = GetComponent<TrailRenderer>();
-        menuContComponent = FindObjectOfType<MenuController>();
+        menuContComponent = FindAnyObjectByType<MenuController>();
     }
     
     private void Update()
