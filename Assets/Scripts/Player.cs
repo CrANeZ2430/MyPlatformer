@@ -71,6 +71,8 @@ public class Player : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space) && !CheckGround() && canDoubleJump)
         {
             StartCoroutine(Jump());
+            canDoubleJump = false;
+        SetSprite(doubleJumpImage, notDoubleJump);
         }
     }
     
@@ -127,8 +129,6 @@ public class Player : MonoBehaviour
         playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         playerRb.gravityScale = originalScale;
 
-        canDoubleJump = false;
-        SetSprite(doubleJumpImage, notDoubleJump);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
