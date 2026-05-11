@@ -6,8 +6,7 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        // Loads the next scene in the build queue
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("LevelSelectMenu");
         Debug.Log("in the function");
     }
 
@@ -15,5 +14,16 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("Quitting");
         Application.Quit();
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void OpenLevel(string levelName)
+    {
+        Debug.Log("Opening level " + levelName);
+        SceneManager.LoadScene(levelName);
     }
 }
