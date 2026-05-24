@@ -1,16 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-public class DoubleJumpBonus : MonoBehaviour
+public class DoubleJumpBonus : CollectibleItem
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public Sprite isDoubleJumpSprite, notDoubleJump;
+    public Image doubleJumpImage;
 
-    // Update is called once per frame
-    void Update()
+    protected override void CollectItem(PlayerController player)
     {
-        
+        player.Jump();
+        Destroy(gameObject);
     }
 }

@@ -7,12 +7,12 @@ public class ShardController : MonoBehaviour
 
     private float shardDir;
     private Rigidbody2D shardRb;
-    private Player playerComponent;
+    private PlayerController playerComponent;
 
     private void Awake()
     {
         shardRb = GetComponent<Rigidbody2D>();
-        playerComponent = FindAnyObjectByType<Player>();
+        playerComponent = FindAnyObjectByType<PlayerController>();
     }
 
     private void Start()

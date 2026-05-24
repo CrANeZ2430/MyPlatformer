@@ -4,13 +4,12 @@ public abstract class CollectibleItem : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D collision)
     {
-        var player = collision.gameObject.GetComponent<Player>();
-        var playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+        var player = collision.gameObject.GetComponent<PlayerController>();
 
-        CollectItem(player, playerRb);
+        CollectItem(player);
     }
 
-    protected abstract void CollectItem(Player player, Rigidbody2D playerRb);
+    protected abstract void CollectItem(PlayerController player);
 
     protected void DestroyBonus(Sprite particlesSprite, GameObject bonusDestroyedParticles, GameObject bonusObject)
     {
