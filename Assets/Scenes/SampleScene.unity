@@ -786,8 +786,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2580023004648944620, guid: c3f8f1deb4b1b7d4aaa9161601d1222d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 60941677}
   m_SourcePrefab: {fileID: 100100000, guid: c3f8f1deb4b1b7d4aaa9161601d1222d, type: 3}
+--- !u!1 &60941676 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2580023004648944620, guid: c3f8f1deb4b1b7d4aaa9161601d1222d, type: 3}
+  m_PrefabInstance: {fileID: 60941675}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &60941677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60941676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20126cd93564fbf45b0c515ee19da3a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DashBonus
+  dashSpeed: 20
+  dashDuration: 0.1
+  isDashingSprite: {fileID: -62909532, guid: f4e0932ce83a5b448842b10754307946, type: 3}
+  notDashingSprite: {fileID: 561985726, guid: f4e0932ce83a5b448842b10754307946, type: 3}
+  dashSprite: {fileID: -507977021, guid: 3adfa1282edf172479416e25971d8ea7, type: 3}
+  dashImage: {fileID: 99631479}
+  bonusDestroyedParticles: {fileID: 2672709329915448552, guid: 2a4adbe9f60997d4faa95fc6bf8678df, type: 3}
 --- !u!1 &86357764
 GameObject:
   m_ObjectHideFlags: 0
@@ -1956,10 +1983,8 @@ GameObject:
   - component: {fileID: 911574550}
   - component: {fileID: 911574556}
   - component: {fileID: 911574551}
-  - component: {fileID: 911574547}
-  - component: {fileID: 911574554}
-  - component: {fileID: 911574553}
   - component: {fileID: 911574555}
+  - component: {fileID: 911574557}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -1967,34 +1992,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &911574547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911574546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 108c14262addafe4d8d41ea4496b22bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  jumpForce: 6
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  platformLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  dashSpeed: 15
-  dashDuration: 0.2
-  dashImage: {fileID: 99631479}
-  doubleJumpImage: {fileID: 1874356200}
-  isDashingSprite: {fileID: -62909532, guid: f4e0932ce83a5b448842b10754307946, type: 3}
-  notDashingSprite: {fileID: 561985726, guid: f4e0932ce83a5b448842b10754307946, type: 3}
-  isDoubleJumpSprite: {fileID: -1122969513, guid: f4e0932ce83a5b448842b10754307946, type: 3}
-  notDoubleJump: {fileID: -1026927336, guid: f4e0932ce83a5b448842b10754307946, type: 3}
 --- !u!4 &911574550
 Transform:
   m_ObjectHideFlags: 0
@@ -2026,7 +2023,7 @@ Rigidbody2D:
   m_Mass: 1.2
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: c95c06cfea950d14283291ab57012621, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -2038,61 +2035,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &911574553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911574546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 315b507760730d94c8c745389dc96d1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBonus: HealthBonus
-  manaBonus: ManaBonus
-  jumpBonus: JumpBonus
-  dashBonus1: DashBonus1
-  dashBonus2: DashBonus2
-  coinBonus: CoinBonus
-  bonusDestroyedParticles: {fileID: 2672709329915448552, guid: 2a4adbe9f60997d4faa95fc6bf8678df, type: 3}
-  healthSprite: {fileID: -336980045, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
-  manaSprite: {fileID: -1889937673, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
-  jumpSprite: {fileID: -395665358, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
-  dash1Sprite: {fileID: 295636119, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
-  dash2Sprite: {fileID: -1910947898, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
-  coinSprite: {fileID: 299946524, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
---- !u!114 &911574554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911574546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a619e8f35ac0452419b48ec86a9088b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 6
-  maxMana: 3
-  manaDelay: 3
-  damageTag: Damageable
-  manaShard: {fileID: 1774678007011572135, guid: 7c57ea578397cd44fb027c5a9641d716, type: 3}
-  fullHeartSprite: {fileID: -1983654626, guid: f4e0932ce83a5b448842b10754307946, type: 3}
-  halfHeartSprite: {fileID: 203384454, guid: f4e0932ce83a5b448842b10754307946, type: 3}
-  noHeartSprite: {fileID: 1548400048, guid: f4e0932ce83a5b448842b10754307946, type: 3}
-  fullManaSprite: {fileID: 1695537972, guid: f4e0932ce83a5b448842b10754307946, type: 3}
-  noManaSprite: {fileID: 1330810413, guid: f4e0932ce83a5b448842b10754307946, type: 3}
-  healthSprite1: {fileID: 1868783182}
-  healthSprite2: {fileID: 1449847549}
-  healthSprite3: {fileID: 162407806}
-  manaSprite1: {fileID: 583666472}
-  manaSprite2: {fileID: 1079649306}
-  manaSprite3: {fileID: 1039392836}
-  manaCoolDown: {fileID: 1392872226}
-  coinsText: {fileID: 1379862352}
 --- !u!96 &911574555
 TrailRenderer:
   serializedVersion: 4
@@ -2249,6 +2191,32 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.37}
   m_Size: {x: 0.75, y: 1.75}
   m_Direction: 0
+--- !u!114 &911574557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911574546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108c14262addafe4d8d41ea4496b22bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  speed: 5
+  jumpForce: 12
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  platformLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  playerLastDir: 1
+  playerTr: {fileID: 911574555}
+  doubleJumpImage: {fileID: 0}
+  isDoubleJumpSprite: {fileID: 0}
+  notDoubleJump: {fileID: 0}
+  isDashing: 0
 --- !u!1 &943763502
 GameObject:
   m_ObjectHideFlags: 0

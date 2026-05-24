@@ -40,17 +40,17 @@ public class BonusHandler : MonoBehaviour
         }
         else if (collision.CompareTag(dashBonus1))
         {
-            if(!playerComponent.IsDashing)
+            if(!playerComponent.isDashing)
             {
-                StartCoroutine(playerComponent.Dash(1f));
+                //StartCoroutine(playerComponent.Dash(1f));
                 DestroyBonus(collision, dash1Sprite);
             }
         }
         else if (collision.CompareTag(dashBonus2))
         {
-            if (!playerComponent.IsDashing)
+            if (!playerComponent.isDashing)
             {
-                StartCoroutine(playerComponent.Dash(-1f));
+                //StartCoroutine(playerComponent.Dash(-1f));
                 DestroyBonus(collision, dash2Sprite);
             }
         }

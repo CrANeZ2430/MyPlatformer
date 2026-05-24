@@ -8,34 +8,30 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private LayerMask groundLayer, platformLayer;
 
-    private float playerLastDir = 1f;
+    public float playerLastDir = 1f;
     private Rigidbody2D playerRb;
-    private TrailRenderer playerTr;
-    private MenuController menuContComponent;
+    public TrailRenderer playerTr;
+    //private MenuController menuController;
     
-    [SerializeField] private float dashSpeed;
-    [SerializeField] private float dashDuration;
-    [SerializeField] private Image dashImage, doubleJumpImage;
+    //[SerializeField] private float dashSpeed;
+    //[SerializeField] private float dashDuration;
+    [SerializeField] private Image /*dashImage,*/ doubleJumpImage;
 
-    [SerializeField] private Sprite isDashingSprite, notDashingSprite,
+    [SerializeField] private Sprite /*isDashingSprite, notDashingSprite,*/
                                     isDoubleJumpSprite, notDoubleJump;
 
-    public bool IsDashing {get; private set;}
+    public bool isDashing;
     private bool canDoubleJump;
 
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
         playerTr = GetComponent<TrailRenderer>();
-        menuContComponent = FindAnyObjectByType<MenuController>();
     }
     
     private void Update()
     {
-        if (!menuContComponent.GetMenuOpen())
-        {
-            Movement();
-        }
+        Movement();
     }
 
     public float GetPlayerDirection()
@@ -52,7 +48,7 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        if (!IsDashing)
+        if (!isDashing)
         {
             playerRb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, playerRb.linearVelocity.y);
         }
@@ -72,7 +68,7 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Jump());
             canDoubleJump = false;
-        SetSprite(doubleJumpImage, notDoubleJump);
+            SetSprite(doubleJumpImage, notDoubleJump);
         }
     }
     
@@ -84,38 +80,43 @@ public class Player : MonoBehaviour
 
     public bool CheckGround()
     {
-        float boxAngle = 0f;
-        float boxDist = 1.5f;
+        var boxAngle = 0f;
+        var boxDist = 1.5f;
         Vector2 boxDir = Vector2.down;
         Vector2 boxSize = new Vector2(0.95f, boxDist);
 
-        bool canJump = Physics2D.BoxCast(transform.position, boxSize, boxAngle, boxDir, boxDist, groundLayer);
+        var canJump = Physics2D.BoxCast(transform.position, boxSize, boxAngle, boxDir, boxDist, groundLayer);
 
         return canJump;
     }
 
-    private void SetSprite(Image uiImage, Sprite uiSprite)
+    public void SetSprite(Image uiImage, Sprite uiSprite)
     {
         uiImage.GetComponent<Image>().sprite = uiSprite;
     }
 
-    public IEnumerator Dash(float dashDir)
+    // public IEnumerator Dash(float dashDir)
+    // {
+    //     isDashing = true;
+    //     float originalGravity = playerRb.gravityScale;
+    //     playerRb.gravityScale = 0f;
+    //     SetSprite(dashImage, isDashingSprite);
+
+    //     playerRb.linearVelocity = new Vector2(dashDir * dashSpeed, 0f);
+    //     playerLastDir = dashDir;
+    //     playerTr.emitting = true;
+
+    //     yield return new WaitForSeconds(dashDuration);
+
+    //     playerTr.emitting = false;
+    //     SetSprite(dashImage, notDashingSprite);
+    //     playerRb.gravityScale = originalGravity;
+    //     isDashing = false;
+    // }
+
+    public void PickupItem(IEnumerator coroutine)
     {
-        IsDashing = true;
-        float originalGravity = playerRb.gravityScale;
-        playerRb.gravityScale = 0f;
-        SetSprite(dashImage, isDashingSprite);
-
-        playerRb.linearVelocity = new Vector2(dashDir * dashSpeed, 0f);
-        playerLastDir = dashDir;
-        playerTr.emitting = true;
-
-        yield return new WaitForSeconds(dashDuration);
-
-        playerTr.emitting = false;
-        SetSprite(dashImage, notDashingSprite);
-        playerRb.gravityScale = originalGravity;
-        IsDashing = false;
+        StartCoroutine(coroutine);
     }
 
     private IEnumerator Jump()
@@ -128,7 +129,6 @@ public class Player : MonoBehaviour
 
         playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         playerRb.gravityScale = originalScale;
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
