@@ -1,44 +1,47 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed;
-    public float jumpForce;
-    public int manaCooldown;
-    private int health;
-    private int mana;
+    [SerializeField] private float speed;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private int manaCooldown;
+
+    public int health;
+    public int mana;
     public int coins;
 
     public int maxHealth = 50;
     public int maxMana = 50;
 
-    public LayerMask groundLayer, platformLayer;
-    public Rigidbody2D rb;
-    public UIController uiController;
-    public TrailRenderer trailRenderer;
-    public SpriteRenderer spriteRenderer;
-    public GameObject manaShard;
+    [SerializeField] private LayerMask groundLayer, platformLayer;
+    [SerializeField] private GameObject manaShard;
+
+    public Rigidbody2D Rb {get; private set;}
+    public UIController UIController {get; private set;}
+    public TrailRenderer TrailRenderer {get; private set;}
+    public SpriteRenderer SpriteRenderer {get; private set;}
+    public bool IsGrounded {get; private set;}
+    
 
     public float playerLastDir = 1f;
     public bool isDashing;
-    public bool isGrounded;
-    public bool canSpawnShard;
+    public bool canSpawnShard = true;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        uiController = GetComponent<UIController>();
-        trailRenderer = GetComponent<TrailRenderer>();
-        spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        Rb = GetComponent<Rigidbody2D>();
+        UIController = GetComponent<UIController>();
+        TrailRenderer = GetComponent<TrailRenderer>();
+        SpriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
     }
 
     void Start()
     {
         health = maxHealth;
         mana = maxMana;
-        canSpawnShard = true;
+        //canSpawnShard = true;
     }
 
     void Update()
@@ -55,7 +58,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDashing)
         {
-            isGrounded = CheckGround();
+            IsGrounded = CheckGround();
         }
     }
 
@@ -75,7 +78,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDashing)
         {
-            rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, rb.linearVelocity.y);
+            Rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, Rb.linearVelocity.y);
 
             if (Input.GetAxisRaw("Horizontal") != 0f)
             {
@@ -83,9 +86,9 @@ public class PlayerController : MonoBehaviour
             }
             
             //transform.localScale = new Vector3(playerLastDir, 1f, 1f);
-            spriteRenderer.flipX = (playerLastDir < 0f);
+            SpriteRenderer.flipX = (playerLastDir < 0f);
 
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
             {
                 Jump();
             }
@@ -94,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        Rb.linearVelocity = new Vector2(Rb.linearVelocity.x, jumpForce);
     }
 
     private bool CheckGround()
@@ -110,18 +113,18 @@ public class PlayerController : MonoBehaviour
     private void SpendMana()
     {
         mana -= 10;
-        uiController.ChangeManaBar(mana, maxMana);
+        UIController.ChangeManaBar(mana, maxMana);
         Instantiate(manaShard, transform.position, Quaternion.identity);
-        uiController.ManaCooldown(ref canSpawnShard, manaCooldown, mana, () => canSpawnShard = !canSpawnShard);
+        UIController.ManaCooldown(ref canSpawnShard, manaCooldown, mana, () => canSpawnShard = !canSpawnShard);
     }
 
     public void Damage()
     {
         health -= 10;
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        Rb.linearVelocity = new Vector2(Rb.linearVelocity.x, jumpForce);
         StartCoroutine(BlinkRed());
 
-        uiController.ChangeHealthBar(health, maxHealth);
+        UIController.ChangeHealthBar(health, maxHealth);
         Debug.Log(health);
         Debug.Log(maxHealth);
 
@@ -133,9 +136,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator BlinkRed()
     {
-        spriteRenderer.color = Color.red;
+        SpriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = Color.white;
+        SpriteRenderer.color = Color.white;
     }
 
     private void Die()

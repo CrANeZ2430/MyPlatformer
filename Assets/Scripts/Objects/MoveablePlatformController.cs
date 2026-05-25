@@ -43,7 +43,7 @@ public class MoveablePlatformController : MonoBehaviour
             {
                 targetPos = startPos;
             }
-            else if (CheckPlatformObstacle(playerLayer) && playerController.isGrounded)
+            else if (CheckPlatformObstacle(playerLayer) && playerController.IsGrounded)
             {
                 targetPos = startPos;
                 playerController.Damage();

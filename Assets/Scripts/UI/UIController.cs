@@ -1,15 +1,14 @@
 using System;
 using System.Collections;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    public Image healthBar, manaBar;
-    public Image manaCooldownImage;
-    public TMP_Text coinsText;
+    [SerializeField] private Image healthBar, manaBar;
+    [SerializeField] private Image manaCooldownImage;
+    [SerializeField] private TMP_Text coinsText;
 
     public void ChangeHealthBar(int currentHealth, int maxHealth)
     {

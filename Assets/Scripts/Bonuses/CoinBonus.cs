@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class CoinBonus : CollectibleItem
 {
-    public Sprite coinParticlesSprite;
+    [SerializeField] private Sprite coinParticlesSprite;
 
     protected override void CollectItem(PlayerController player)
     {
         player.coins++;
-        player.uiController.UpdateCoins(player.coins);
-        DestroyBonus(coinParticlesSprite, bonusDestroyedParticles, gameObject);
+        player.UIController.UpdateCoins(player.coins);
+        DestroyBonus(coinParticlesSprite, gameObject);
     }
 }

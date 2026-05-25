@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class DoubleJumpBonus : CollectibleItem
 {
-    public Sprite doubleJumpSprite;
+    [SerializeField] private Sprite doubleJumpParticlesSprite;
 
     protected override void CollectItem(PlayerController player)
     {
         player.Jump();
-        DestroyBonus(doubleJumpSprite, bonusDestroyedParticles, gameObject);
+        DestroyBonus(doubleJumpParticlesSprite, gameObject);
     }
 }

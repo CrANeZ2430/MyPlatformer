@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class CollectibleItem : MonoBehaviour
 {
-    public GameObject bonusDestroyedParticles;
+    [SerializeField] private GameObject bonusDestroyedParticles;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,7 +13,7 @@ public abstract class CollectibleItem : MonoBehaviour
 
     protected abstract void CollectItem(PlayerController player);
 
-    protected void DestroyBonus(Sprite particlesSprite, GameObject bonusDestroyedParticles, GameObject bonusObject)
+    protected void DestroyBonus(Sprite particlesSprite, GameObject bonusObject)
     {
         Destroy(bonusObject);
         bonusDestroyedParticles.GetComponent<ParticleSystem>().textureSheetAnimation.SetSprite(0, particlesSprite);
