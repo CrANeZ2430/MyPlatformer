@@ -9,21 +9,19 @@ public class MoveablePlatformController : MonoBehaviour
     [SerializeField] private bool isMovingHorizontaly;
 
     private Vector3 targetPos;
-    private Player playerComponent;
-    private UI uiComponent;
+    private PlayerController playerController;
 
-    private void Awake()
+    void Awake()
     {
-        playerComponent = FindAnyObjectByType<Player>();
-        uiComponent = FindAnyObjectByType<UI>();
+        playerController = FindAnyObjectByType<PlayerController>();
     }
 
-    private void Start()
+    void Start()
     {
         ChangePositionSettings();
     }
 
-    private void Update()
+    void Update()
     {
         PlatformMovement();
     }
@@ -45,10 +43,10 @@ public class MoveablePlatformController : MonoBehaviour
             {
                 targetPos = startPos;
             }
-            else if (CheckPlatformObstacle(playerLayer) && playerComponent.CheckGround())
+            else if (CheckPlatformObstacle(playerLayer) && playerController.IsGrounded)
             {
                 targetPos = startPos;
-                uiComponent.ChangeUIValue(-1, 0);
+                playerController.Damage();
             }
         }
 
@@ -75,14 +73,14 @@ public class MoveablePlatformController : MonoBehaviour
 
     private bool CheckPlatformObstacle(LayerMask checkLayer)
     {
-        float boxAngle = 0f;
-        float boxDist = 0.05f;
-        Vector2 boxOrigin = transform.position;
-        Vector2 boxSize = new Vector2(platformSize, boxDist);
-        Vector2 boxDir = Vector2.down;
+        var boxAngle = 0f;
+        var boxDist = 0.05f;
+        var boxOrigin = transform.position;
+        var boxSize = new Vector2(platformSize, boxDist);
+        var boxDir = Vector2.down;
 
-        bool platformReturn = Physics2D.BoxCast(boxOrigin, boxSize, boxAngle, 
-                                                boxDir, boxDist, checkLayer)&& targetPos != startPos;
+        var platformReturn = Physics2D.BoxCast(boxOrigin, boxSize, boxAngle, 
+                                                boxDir, boxDist, checkLayer) && targetPos != startPos;
 
         return platformReturn;
     }
