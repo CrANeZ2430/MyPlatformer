@@ -11,17 +11,17 @@ public class MoveablePlatformController : MonoBehaviour
     private Vector3 targetPos;
     private PlayerController playerController;
 
-    private void Awake()
+    void Awake()
     {
         playerController = FindAnyObjectByType<PlayerController>();
     }
 
-    private void Start()
+    void Start()
     {
         ChangePositionSettings();
     }
 
-    private void Update()
+    void Update()
     {
         PlatformMovement();
     }

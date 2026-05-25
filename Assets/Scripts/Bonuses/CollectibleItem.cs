@@ -2,6 +2,8 @@ using UnityEngine;
 
 public abstract class CollectibleItem : MonoBehaviour
 {
+    public GameObject bonusDestroyedParticles;
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         var player = collision.gameObject.GetComponent<PlayerController>();

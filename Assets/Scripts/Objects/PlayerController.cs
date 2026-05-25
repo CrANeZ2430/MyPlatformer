@@ -6,26 +6,30 @@ public class PlayerController : MonoBehaviour
 {
     public float speed;
     public float jumpForce;
+    public int manaCooldown;
     private int health;
     private int mana;
+    public int coins;
 
     public int maxHealth = 50;
     public int maxMana = 50;
 
     public LayerMask groundLayer, platformLayer;
     public Rigidbody2D rb;
+    public UIController uiController;
     public TrailRenderer trailRenderer;
     public SpriteRenderer spriteRenderer;
-
-    public Image healthBar, manaBar;
+    public GameObject manaShard;
 
     public float playerLastDir = 1f;
     public bool isDashing;
     public bool isGrounded;
+    public bool canSpawnShard;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        uiController = GetComponent<UIController>();
         trailRenderer = GetComponent<TrailRenderer>();
         spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
     }
@@ -34,11 +38,17 @@ public class PlayerController : MonoBehaviour
     {
         health = maxHealth;
         mana = maxMana;
+        canSpawnShard = true;
     }
 
     void Update()
     {
         Movement();
+
+        if (Input.GetKeyDown(KeyCode.F) && canSpawnShard)
+        {
+            SpendMana();
+        }
     }
 
     void FixedUpdate()
@@ -66,13 +76,14 @@ public class PlayerController : MonoBehaviour
         if (!isDashing)
         {
             rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, rb.linearVelocity.y);
-            
-            transform.localScale = new Vector3(playerLastDir, 1f, 1f);
 
             if (Input.GetAxisRaw("Horizontal") != 0f)
             {
                 playerLastDir = Input.GetAxisRaw("Horizontal");
             }
+            
+            //transform.localScale = new Vector3(playerLastDir, 1f, 1f);
+            spriteRenderer.flipX = (playerLastDir < 0f);
 
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
             {
@@ -96,18 +107,12 @@ public class PlayerController : MonoBehaviour
         return Physics2D.BoxCast(transform.position, boxSize, boxAngle, boxDir, boxDist, groundLayer);
     }
 
-    //for bonuses pickups
-    public void ExecuteCoroutine(IEnumerator coroutine)
+    private void SpendMana()
     {
-        StartCoroutine(coroutine);
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Damageable")
-        {
-            Damage();
-        }
+        mana -= 10;
+        uiController.ChangeManaBar(mana, maxMana);
+        Instantiate(manaShard, transform.position, Quaternion.identity);
+        uiController.ManaCooldown(ref canSpawnShard, manaCooldown, mana, () => canSpawnShard = !canSpawnShard);
     }
 
     public void Damage()
@@ -116,12 +121,14 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         StartCoroutine(BlinkRed());
 
+        uiController.ChangeHealthBar(health, maxHealth);
+        Debug.Log(health);
+        Debug.Log(maxHealth);
+
         if (health <= 0)
         {
             Die();
         }
-
-        healthBar.fillAmount = (float)health / maxHealth;
     }
 
     private IEnumerator BlinkRed()
@@ -137,26 +144,40 @@ public class PlayerController : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
-    // private void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     int bitmask = 1 << collision.gameObject.layer;
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Damageable")
+        {
+            Damage();
+        }
+    }
 
-    //     if (bitmask == platformLayer)
-    //     {
-    //         transform.SetParent(collision.transform, true);
-    //     }
+    //for bonuses pickups
+    public void ExecuteCoroutine(IEnumerator coroutine)
+    {
+        StartCoroutine(coroutine);
+    }
 
-    //     //Debug.Log(Convert.ToString(bitmask, 2).PadLeft(32, '0'));
-    // }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        int bitmask = 1 << collision.gameObject.layer;
 
-    // private void OnTriggerExit2D(Collider2D collision)
-    // {
-    //     int bitmask = 1 << collision.gameObject.layer;
+        if (bitmask == platformLayer)
+        {
+            transform.SetParent(collision.transform, true);
+        }
 
-    //     if (bitmask == platformLayer)
-    //     {
-    //         transform.SetParent(null, true);
-    //     }
+        //Debug.Log(Convert.ToString(bitmask, 2).PadLeft(32, '0'));
+    }
 
-    // }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        int bitmask = 1 << collision.gameObject.layer;
+
+        if (bitmask == platformLayer)
+        {
+            transform.SetParent(null, true);
+        }
+
+    }
 }
