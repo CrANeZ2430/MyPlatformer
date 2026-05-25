@@ -7,8 +7,11 @@ public class ManaBonus : CollectibleItem
 
     protected override void CollectItem(PlayerController player)
     {
-        player.mana += manaToRestore;
-        player.UIController.ChangeManaBar(player.mana, player.maxMana);
-        DestroyBonus(manaParticlesSprite, gameObject);
+        if (player.mana != player.maxMana)
+        {
+            player.mana += manaToRestore;
+            player.UIController.ChangeManaBar(player.mana, player.maxMana);
+            DestroyBonus(manaParticlesSprite, gameObject);
+        }
     }
 }

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 5027556627707432832}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5743579, y: 4.390792, z: -0.035741754}
+  m_LocalPosition: {x: -2.271697, y: 3.0804603, z: -0.035741754}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -85,7 +85,7 @@ MonoBehaviour:
   bonusDestroyedParticles: {fileID: 2672709329915448552, guid: 2a4adbe9f60997d4faa95fc6bf8678df, type: 3}
   dashSpeed: 20
   dashDuration: 0.1
-  dashSprite: {fileID: -1910947898, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
+  dashBackwardParticlesSprite: {fileID: -1910947898, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
 --- !u!1 &6813718550004390350
 GameObject:
   m_ObjectHideFlags: 0

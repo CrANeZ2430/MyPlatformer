@@ -141,7 +141,7 @@ Transform:
   m_GameObject: {fileID: 5489582544945342736}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.617099, y: 0.28593957, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -197,4 +197,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoubleJumpBonus
   bonusDestroyedParticles: {fileID: 2672709329915448552, guid: 2a4adbe9f60997d4faa95fc6bf8678df, type: 3}
-  doubleJumpSprite: {fileID: -395665358, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
+  doubleJumpParticlesSprite: {fileID: -395665358, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}

@@ -124,6 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2458200252213458925}
   - component: {fileID: 5769376015750031161}
+  - component: {fileID: -7508934195250243537}
   m_Layer: 0
   m_Name: Health
   m_TagString: HealthBonus
@@ -140,7 +141,7 @@ Transform:
   m_GameObject: {fileID: 8970017791301168967}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3.768762, y: 0.48554885, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -183,3 +184,18 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.35
+--- !u!114 &-7508934195250243537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8970017791301168967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb7b067594168a74ab37f2f912395191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthBonus
+  bonusDestroyedParticles: {fileID: 2672709329915448552, guid: 2a4adbe9f60997d4faa95fc6bf8678df, type: 3}
+  healthParticlesSprite: {fileID: -336980045, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
+  healthToRestore: 10

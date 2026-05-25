@@ -7,8 +7,11 @@ public class HealthBonus : CollectibleItem
 
     protected override void CollectItem(PlayerController player)
     {
-        player.health += healthToRestore;
-        player.UIController.ChangeHealthBar(player.health, player.maxHealth);
-        DestroyBonus(healthParticlesSprite, gameObject);
+        if (player.health != player.maxHealth)
+        {
+            player.health += healthToRestore;
+            player.UIController.ChangeHealthBar(player.health, player.maxHealth);
+            DestroyBonus(healthParticlesSprite, gameObject);
+        }
     }
 }
