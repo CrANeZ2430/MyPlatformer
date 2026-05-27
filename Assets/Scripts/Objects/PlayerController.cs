@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed;
@@ -31,9 +32,16 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();
-        UIController = GetComponent<UIController>();
         TrailRenderer = GetComponent<TrailRenderer>();
-        SpriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        
+        SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (SpriteRenderer == null)
+        {
+            Debug.LogError($"[PlayerController] No SpriteRenderer found on {gameObject.name} or its children! Sprite flipping will crash.");
+        }
+
+        UIController = Object.FindFirstObjectByType<UIController>(); 
     }
 
     void Start()
@@ -84,7 +92,10 @@ public class PlayerController : MonoBehaviour
             }
             
             //transform.localScale = new Vector3(playerLastDir, 1f, 1f);
-            SpriteRenderer.flipX = (playerLastDir < 0f);
+            if (SpriteRenderer != null)
+            {
+                SpriteRenderer.flipX = (playerLastDir < 0f);
+            }
 
             if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
             {
