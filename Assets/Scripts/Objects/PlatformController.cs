@@ -6,6 +6,7 @@ public class PlatformController : MonoBehaviour
     [SerializeField] private Transform[] positions;
     [SerializeField] private float platformSpeed;
     [SerializeField] private string playerTag;
+    [SerializeField] private LayerMask groundLayer;
 
     private int i;
 
@@ -21,6 +22,13 @@ public class PlatformController : MonoBehaviour
             if (i == positions.Length)
                 i = 0;
             
+        }
+
+        if (hit != null && (groundLayer.value & (1<<hit.gameObject.layer))!= 0)
+        {
+            i++;
+            if (i == positions.Length)
+                i = 0;
         }
 
         if (Vector2.Distance(transform.position, positions[i].position) < 0.01f)
