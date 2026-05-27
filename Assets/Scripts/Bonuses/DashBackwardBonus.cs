@@ -12,7 +12,7 @@ public class DashBackwardsBonus : CollectibleItem
     protected override void CollectItem(PlayerController player)
     {
         player.ExecuteCoroutine(Dash(dashDir, player, player.Rb));
-        DestroyBonus(dashBackwardParticlesSprite, gameObject);
+        DestroyBonus(dashBackwardParticlesSprite);
     }
 
     private IEnumerator Dash(float dashDir, PlayerController player, Rigidbody2D rb)

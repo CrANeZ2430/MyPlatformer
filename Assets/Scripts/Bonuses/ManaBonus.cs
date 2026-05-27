@@ -11,7 +11,7 @@ public class ManaBonus : CollectibleItem
         {
             player.mana += manaToRestore;
             player.UIController.ChangeManaBar(player.mana, player.maxMana);
-            DestroyBonus(manaParticlesSprite, gameObject);
+            DestroyBonus(manaParticlesSprite);
         }
     }
 }

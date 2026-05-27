@@ -11,7 +11,7 @@ public class HealthBonus : CollectibleItem
         {
             player.health += healthToRestore;
             player.UIController.ChangeHealthBar(player.health, player.maxHealth);
-            DestroyBonus(healthParticlesSprite, gameObject);
+            DestroyBonus(healthParticlesSprite);
         }
     }
 }

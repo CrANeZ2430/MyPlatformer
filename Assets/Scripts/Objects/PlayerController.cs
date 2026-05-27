@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private int manaCooldown;
+    [SerializeField] private Transform groundCheckTransform;
+    [SerializeField] private float checkRadius = 0.15f;
 
     public int health;
     public int mana;
@@ -48,7 +50,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F) && canSpawnShard)
         {
-            SpendMana();
+            mana -= 10;
+            UIController.ChangeManaBar(mana, maxMana);
+            Instantiate(manaShard, transform.position, Quaternion.identity);
+            UIController.ManaCooldown(ref canSpawnShard, manaCooldown, mana, () => canSpawnShard = !canSpawnShard);
         }
     }
 
@@ -56,7 +61,10 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDashing)
         {
-            IsGrounded = CheckGround();
+            // IsGrounded = CheckGround();
+
+            int combinedMask = groundLayer.value | platformLayer.value;
+            IsGrounded = Physics2D.OverlapCircle(groundCheckTransform.position, checkRadius, combinedMask);
         }
     }
 
@@ -98,33 +106,38 @@ public class PlayerController : MonoBehaviour
         Rb.linearVelocity = new Vector2(Rb.linearVelocity.x, jumpForce);
     }
 
-    private bool CheckGround()
-    {
-        var boxAngle = 0f;
-        var boxDist = 1.5f;
-        Vector2 boxDir = Vector2.down;
-        Vector2 boxSize = new Vector2(0.95f, boxDist);
+    // private bool CheckGround()
+    // {
+    //     CapsuleCollider2D cc = GetComponent<CapsuleCollider2D>();
+    //     if (cc == null) return false;
 
-        return Physics2D.BoxCast(transform.position, boxSize, boxAngle, boxDir, boxDist, groundLayer);
-    }
+    //     // Start at the dynamic mathematical center of your capsule
+    //     Vector2 startPoint = cc.bounds.center;
+        
+    //     // Width is 90% of your collider width, height is a thin slice
+    //     Vector2 boxSize = new Vector2(cc.bounds.size.x * 0.9f, 0.1f);
+        
+    //     // Distance travels exactly half the collider's height + a tiny skin buffer (0.1f)
+    //     float castDistance = (cc.bounds.size.y / 2f) + 0.1f;
 
-    private void SpendMana()
-    {
-        mana -= 10;
-        UIController.ChangeManaBar(mana, maxMana);
-        Instantiate(manaShard, transform.position, Quaternion.identity);
-        UIController.ManaCooldown(ref canSpawnShard, manaCooldown, mana, () => canSpawnShard = !canSpawnShard);
-    }
+    //     int combinedMask = groundLayer.value | platformLayer.value;
 
-    public void Damage()
+    //     RaycastHit2D hit = Physics2D.BoxCast(startPoint, boxSize, 0f, Vector2.down, castDistance, combinedMask);
+
+    //     // This green line will now perfectly mirror the physics box reach
+    //     Debug.DrawRay(startPoint, Vector2.down * castDistance, Color.green);
+
+    //     return hit.collider != null;
+    // }
+
+    public void Damage(bool damagedBYPlatform)
     {
         health -= 10;
-        Rb.linearVelocity = new Vector2(Rb.linearVelocity.x, jumpForce);
+        if (!damagedBYPlatform)
+            Rb.linearVelocity = new Vector2(Rb.linearVelocity.x, jumpForce);
         StartCoroutine(BlinkRed());
 
         UIController.ChangeHealthBar(health, maxHealth);
-        Debug.Log(health);
-        Debug.Log(maxHealth);
 
         if (health <= 0)
         {
@@ -149,7 +162,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Damageable")
         {
-            Damage();
+            Damage(false);
         }
     }
 
@@ -157,28 +170,5 @@ public class PlayerController : MonoBehaviour
     public void ExecuteCoroutine(IEnumerator coroutine)
     {
         StartCoroutine(coroutine);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        int bitmask = 1 << collision.gameObject.layer;
-
-        if (bitmask == platformLayer)
-        {
-            transform.SetParent(collision.transform, true);
-        }
-
-        //Debug.Log(Convert.ToString(bitmask, 2).PadLeft(32, '0'));
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        int bitmask = 1 << collision.gameObject.layer;
-
-        if (bitmask == platformLayer)
-        {
-            transform.SetParent(null, true);
-        }
-
     }
 }

@@ -13,10 +13,10 @@ public abstract class CollectibleItem : MonoBehaviour
 
     protected abstract void CollectItem(PlayerController player);
 
-    protected void DestroyBonus(Sprite particlesSprite, GameObject bonusObject)
+    protected void DestroyBonus(Sprite particlesSprite)
     {
-        Destroy(bonusObject);
+        Destroy(gameObject);
         bonusDestroyedParticles.GetComponent<ParticleSystem>().textureSheetAnimation.SetSprite(0, particlesSprite);
-        Instantiate(bonusDestroyedParticles, bonusObject.transform.position, Quaternion.identity);
+        Instantiate(bonusDestroyedParticles, gameObject.transform.position, Quaternion.identity);
     }
 }

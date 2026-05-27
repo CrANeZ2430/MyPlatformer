@@ -7,6 +7,6 @@ public class DoubleJumpBonus : CollectibleItem
     protected override void CollectItem(PlayerController player)
     {
         player.Jump();
-        DestroyBonus(doubleJumpParticlesSprite, gameObject);
+        DestroyBonus(doubleJumpParticlesSprite);
     }
 }

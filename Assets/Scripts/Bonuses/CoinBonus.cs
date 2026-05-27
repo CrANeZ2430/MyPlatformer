@@ -8,6 +8,6 @@ public class CoinBonus : CollectibleItem
     {
         player.coins++;
         player.UIController.UpdateCoins(player.coins);
-        DestroyBonus(coinParticlesSprite, gameObject);
+        DestroyBonus(coinParticlesSprite);
     }
 }
