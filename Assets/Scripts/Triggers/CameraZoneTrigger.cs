@@ -1,0 +1,52 @@
+using UnityEngine;
+
+public class CameraZoneTrigger : MonoBehaviour
+{
+    [Header("Mode Configuration")]
+    [SerializeField] private CameraMode targetMode;
+    [SerializeField] private string playerTag = "Player";
+    
+    [Tooltip("If checked, the camera cuts to this mode instantly without a smooth slide transition.")]
+    [SerializeField] private bool instantAnimation = false;
+
+    [Header("Custom Mode Only")]
+    [SerializeField] private GameObject customCameraForThisZone;
+
+    [Header("Level Fit Only")]
+    [SerializeField] private UnityEngine.Tilemaps.Tilemap targetTilemap;
+    [SerializeField] private Cinemachine.CinemachineTargetGroup targetGroup;
+
+    private GameObject anchorMin;
+    private GameObject anchorMax;
+
+    private void Awake()
+    {
+        anchorMin = new GameObject($"[{gameObject.name}]_Min");
+        anchorMax = new GameObject($"[{gameObject.name}]_Max");
+        anchorMin.transform.SetParent(transform);
+        anchorMax.transform.SetParent(transform);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag(playerTag))
+        {
+            if (CameraManager.Instance != null)
+            {
+                CameraManager.Instance.SwitchCameraMode(
+                    targetMode, 
+                    customCameraForThisZone, 
+                    targetTilemap, 
+                    targetGroup, 
+                    anchorMin, 
+                    anchorMax,
+                    instantAnimation 
+                );
+            }
+            else
+            {
+                Debug.LogError("CameraManager is missing from the scene!");
+            }
+        }
+    }
+}
