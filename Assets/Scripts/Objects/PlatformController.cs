@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformController : MonoBehaviour
@@ -15,9 +14,9 @@ public class PlatformController : MonoBehaviour
     {
         var hit = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y-0.25f), new Vector2(1.9f, 0.01f), 0f);
 
-        if (hit != null && hit.CompareTag(playerTag) && hit.GetComponent<PlayerController>().IsGrounded)
+        if (hit != null && hit.CompareTag(playerTag) && hit.GetComponent<IMoveable>().IsGrounded)
         {
-            var player = hit.GetComponent<PlayerController>();
+            var player = hit.GetComponent<IDamageable>();
             player.Damage(true);
             AdvanceToNextTarget();
         }

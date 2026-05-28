@@ -198,3 +198,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CoinBonus
   bonusDestroyedParticles: {fileID: 2672709329915448552, guid: 2a4adbe9f60997d4faa95fc6bf8678df, type: 3}
   coinParticlesSprite: {fileID: 299946524, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
+  coinsToAdd: 1
