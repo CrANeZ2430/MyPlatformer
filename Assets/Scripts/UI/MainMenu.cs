@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,5 +25,20 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("Opening level " + levelName);
         SceneManager.LoadScene(levelName);
+    }
+
+    public void PlayNextLevel()
+    {
+        Scene activeScene = SceneManager.GetActiveScene();
+
+        string nextLevelName = "Level" + (Convert.ToInt32(activeScene.name.Split("Level")[^1]) + 1);
+        Debug.Log("next level to be loaded: " + nextLevelName);
+
+        SceneManager.LoadScene(nextLevelName);
+
+        if (!SceneManager.GetSceneByName(nextLevelName).IsValid())
+        {
+            SceneManager.LoadScene("LevelSelectMenu");
+        }
     }
 }

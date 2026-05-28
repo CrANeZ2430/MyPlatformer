@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunner, IMoveable, IDashable, IDamageable
 {
     [SerializeField] private float speed;
@@ -34,8 +35,13 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        uiController = GetComponent<UIController>();
-        spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        uiController =  Object.FindFirstObjectByType<UIController>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        
+        if (spriteRenderer == null)
+        {
+            Debug.LogError($"[PlayerController] No SpriteRenderer found on {gameObject.name} or its children! Sprite flipping will crash.");
+        }
     }
 
     void Start()
@@ -92,7 +98,10 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
                 ObjLastDir = Input.GetAxisRaw("Horizontal");
             }
 
-            spriteRenderer.flipX = (ObjLastDir < 0f);
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.flipX = (ObjLastDir < 0f);
+            }
 
             if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
             {
