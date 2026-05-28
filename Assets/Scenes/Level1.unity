@@ -2692,17 +2692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e55ec6ca51e9245a8fa8cefe7d806e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {x: 2, y: 2, z: 0}
-  endPos: {x: 0, y: -2, z: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  speed: 1
-  platformSize: 2
-  isMovingHorizontaly: 0
 --- !u!61 &187281728
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5077,6 +5066,37 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1255720550
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1255720551}
+  m_Layer: 3
+  m_Name: GroundChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1255720551
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255720550}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1485793152}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1287552130
 GameObject:
   m_ObjectHideFlags: 0
@@ -8734,9 +8754,8 @@ MonoBehaviour:
   speed: 5
   jumpForce: 12
   manaCooldown: 10
-  health: 0
-  mana: 0
-  coins: 0
+  groundCheckTransform: {fileID: 1255720551}
+  checkRadius: 0.15
   maxHealth: 50
   maxMana: 50
   groundLayer:
@@ -8746,9 +8765,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   manaShard: {fileID: 1774678007011572135, guid: 7c57ea578397cd44fb027c5a9641d716, type: 3}
-  playerLastDir: 1
-  isDashing: 0
-  canSpawnShard: 1
 --- !u!96 &1485793149
 TrailRenderer:
   serializedVersion: 4
@@ -8946,6 +8962,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1139399928}
+  - {fileID: 1255720551}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1565464432
@@ -10280,6 +10297,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1849722877302540433, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849722877302540433, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
+      propertyPath: jumpForce
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849722877302540433, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
+      propertyPath: manaShard
+      value: 
+      objectReference: {fileID: 937698799}
+    - target: {fileID: 1849722877302540433, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
+      propertyPath: manaCooldown
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849722877302540433, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849722877302540433, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
+      propertyPath: groundCheckTransform
+      value: 
+      objectReference: {fileID: 1255720551}
+    - target: {fileID: 1849722877302540433, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
+      propertyPath: platformLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 3475583659750620226, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.5
