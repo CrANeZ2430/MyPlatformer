@@ -7273,6 +7273,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: main_game_textures_21
       objectReference: {fileID: 0}
+    - target: {fileID: 8053383875763951600, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8053383875763951600, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
