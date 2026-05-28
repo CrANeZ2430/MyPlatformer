@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformController : MonoBehaviour
@@ -8,7 +8,8 @@ public class PlatformController : MonoBehaviour
     [SerializeField] private string playerTag;
     [SerializeField] private LayerMask groundLayer;
 
-    private int i;
+    private int currentIndex = 0;
+    private bool movingForward = true;
 
     void Update()
     {
@@ -18,28 +19,42 @@ public class PlatformController : MonoBehaviour
         {
             var player = hit.GetComponent<PlayerController>();
             player.Damage(true);
-            i++;
-            if (i == positions.Length)
-                i = 0;
-            
+            AdvanceToNextTarget();
         }
 
         if (hit != null && (groundLayer.value & (1<<hit.gameObject.layer))!= 0)
         {
-            i++;
-            if (i == positions.Length)
-                i = 0;
+            AdvanceToNextTarget();
         }
 
-        if (Vector2.Distance(transform.position, positions[i].position) < 0.01f)
+        if (positions == null || positions.Length == 0) return;
+
+        if (Vector2.Distance(transform.position, positions[currentIndex].position) < 0.01f)
         {
-            i++;
-            if (i == positions.Length)
-                i = 0;
+            AdvanceToNextTarget();
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, 
-                                positions[i].position, Time.deltaTime * platformSpeed);
+        transform.position = Vector2.MoveTowards(
+            transform.position, 
+            positions[currentIndex].position, 
+            Time.deltaTime * platformSpeed
+        );
+    }
+
+    private void AdvanceToNextTarget()
+    {
+        if (positions.Length <= 1) return;
+
+        if (currentIndex == positions.Length - 1 && movingForward == true)
+        {
+            movingForward = false;
+        }
+        else if (currentIndex == 0 && movingForward == false)
+        {
+            movingForward = true;
+        }
+
+        currentIndex += movingForward ? 1 : -1;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
