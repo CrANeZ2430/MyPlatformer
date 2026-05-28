@@ -4,9 +4,10 @@ public class DoubleJumpBonus : CollectibleItem
 {
     [SerializeField] private Sprite doubleJumpParticlesSprite;
 
-    protected override void CollectItem(PlayerController player)
+    protected override void CollectItem(GameObject player)
     {
-        player.Jump();
-        DestroyBonus(doubleJumpParticlesSprite, gameObject);
+        var movementChanger = player.GetComponent<IMoveable>();
+        movementChanger.Jump();
+        DestroyBonus(doubleJumpParticlesSprite);
     }
 }

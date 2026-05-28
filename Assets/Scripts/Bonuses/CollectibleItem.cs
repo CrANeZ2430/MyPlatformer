@@ -6,17 +6,15 @@ public abstract class CollectibleItem : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        var player = collision.gameObject.GetComponent<PlayerController>();
-
-        CollectItem(player);
+        CollectItem(collision.gameObject);
     }
 
-    protected abstract void CollectItem(PlayerController player);
+    protected abstract void CollectItem(GameObject player);
 
-    protected void DestroyBonus(Sprite particlesSprite, GameObject bonusObject)
+    protected void DestroyBonus(Sprite particlesSprite)
     {
-        Destroy(bonusObject);
+        Destroy(gameObject);
         bonusDestroyedParticles.GetComponent<ParticleSystem>().textureSheetAnimation.SetSprite(0, particlesSprite);
-        Instantiate(bonusDestroyedParticles, bonusObject.transform.position, Quaternion.identity);
+        Instantiate(bonusDestroyedParticles, gameObject.transform.position, Quaternion.identity);
     }
 }

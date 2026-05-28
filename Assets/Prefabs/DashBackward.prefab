@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8140027119947437872}
   m_Layer: 0
   m_Name: DashBackward
-  m_TagString: DashBonus2
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

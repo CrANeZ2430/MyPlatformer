@@ -5,13 +5,14 @@ public class HealthBonus : CollectibleItem
     [SerializeField] private Sprite healthParticlesSprite;
     [SerializeField] private int healthToRestore = 10;
 
-    protected override void CollectItem(PlayerController player)
+    protected override void CollectItem(GameObject player)
     {
-        if (player.health != player.maxHealth)
+        var resourceChanger = player.GetComponent<IResourceMutable>();
+
+        if (resourceChanger.CurrentHealth < resourceChanger.MaxHealth)
         {
-            player.health += healthToRestore;
-            player.UIController.ChangeHealthBar(player.health, player.maxHealth);
-            DestroyBonus(healthParticlesSprite, gameObject);
+            resourceChanger.AddHealth(healthToRestore);
+            DestroyBonus(healthParticlesSprite);
         }
     }
 }

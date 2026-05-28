@@ -2,99 +2,105 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunner, IMoveable, IDashable, IDamageable
 {
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
-    [SerializeField] private int manaCooldown;
-
-    public int health;
-    public int mana;
-    public int coins;
-
-    public int maxHealth = 50;
-    public int maxMana = 50;
+    [SerializeField] private float manaCooldown;
+    [SerializeField] private Transform groundCheckTransform;
+    [SerializeField] private float checkRadius = 0.15f;
+    [SerializeField] private int maxHealth;
+    [SerializeField] private int maxMana;
 
     [SerializeField] private LayerMask groundLayer, platformLayer;
     [SerializeField] private GameObject manaShard;
 
-    public Rigidbody2D Rb {get; private set;}
-    public UIController UIController {get; private set;}
-    public TrailRenderer TrailRenderer {get; private set;}
-    public SpriteRenderer SpriteRenderer {get; private set;}
-    public bool IsGrounded {get; private set;}
+    private bool canSpawnShard = true;
+
+    private Rigidbody2D rb;
+    private UIController uiController;
+    private SpriteRenderer spriteRenderer;
     
+    public bool IsGrounded {get; private set;}
 
-    public float playerLastDir = 1f;
-    public bool isDashing;
-    public bool canSpawnShard = true;
+    public int MaxHealth { get; private set;}
+    public int CurrentHealth { get; private set;}
+    public int MaxMana { get; private set;}
+    public int CurrentMana { get; private set;}
+    public int Coins { get; private set;}
 
+    public float ObjLastDir { get; private set; } = 1f;
+    public bool IsDashing { get; private set; }
+    
     void Awake()
     {
-        Rb = GetComponent<Rigidbody2D>();
-        TrailRenderer = GetComponent<TrailRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+        uiController =  Object.FindFirstObjectByType<UIController>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         
-        SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
-        if (SpriteRenderer == null)
+        if (spriteRenderer == null)
         {
             Debug.LogError($"[PlayerController] No SpriteRenderer found on {gameObject.name} or its children! Sprite flipping will crash.");
         }
-
-        UIController = Object.FindFirstObjectByType<UIController>(); 
     }
 
     void Start()
     {
-        health = maxHealth;
-        mana = maxMana;
+        MaxHealth = maxHealth;
+        MaxMana = maxMana;
+        CurrentHealth = MaxHealth;
+        CurrentMana = MaxMana;
+        Coins = 0;
     }
 
     void Update()
     {
-        Movement();
+        Move();
 
         if (Input.GetKeyDown(KeyCode.F) && canSpawnShard)
         {
-            SpendMana();
+            AddMana(manaAmount:-10);
+            uiController.ChangeManaBar(CurrentMana, MaxMana);
+            Instantiate(manaShard, transform.position, Quaternion.identity);
+            uiController.ManaCooldown(ref canSpawnShard, manaCooldown, CurrentMana, () => canSpawnShard = !canSpawnShard);
         }
     }
 
     void FixedUpdate()
     {
-        if (!isDashing)
+        if (!IsDashing)
         {
-            IsGrounded = CheckGround();
+            int combinedMask = groundLayer.value | platformLayer.value;
+            IsGrounded = Physics2D.OverlapCircle(groundCheckTransform.position, checkRadius, combinedMask);
         }
     }
 
     public float GetPlayerDirection()
     {
-        float playerDirection = Input.GetAxisRaw("Horizontal");
+        var playerDirection = Input.GetAxisRaw("Horizontal");
 
         if (playerDirection == 0f)
         {
-            playerDirection = playerLastDir;
+            playerDirection = ObjLastDir;
         }
 
         return playerDirection;
     }
 
-    private void Movement()
+    private void Move()
     {
-        if (!isDashing)
+        if (!IsDashing)
         {
-            Rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, Rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * speed, rb.linearVelocity.y);
 
             if (Input.GetAxisRaw("Horizontal") != 0f)
             {
-                playerLastDir = Input.GetAxisRaw("Horizontal");
+                ObjLastDir = Input.GetAxisRaw("Horizontal");
             }
-            
-            //transform.localScale = new Vector3(playerLastDir, 1f, 1f);
-            if (SpriteRenderer != null)
+
+            if (spriteRenderer != null)
             {
-                SpriteRenderer.flipX = (playerLastDir < 0f);
+                spriteRenderer.flipX = (ObjLastDir < 0f);
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
@@ -106,38 +112,20 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        Rb.linearVelocity = new Vector2(Rb.linearVelocity.x, jumpForce);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
     }
 
-    private bool CheckGround()
+    public void Damage(bool damagedByPlatform)
     {
-        var boxAngle = 0f;
-        var boxDist = 1.5f;
-        Vector2 boxDir = Vector2.down;
-        Vector2 boxSize = new Vector2(0.95f, boxDist);
+        AddHealth(healthAmount:-10);
 
-        return Physics2D.BoxCast(transform.position, boxSize, boxAngle, boxDir, boxDist, groundLayer);
-    }
+        if (!damagedByPlatform)
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
 
-    private void SpendMana()
-    {
-        mana -= 10;
-        UIController.ChangeManaBar(mana, maxMana);
-        Instantiate(manaShard, transform.position, Quaternion.identity);
-        UIController.ManaCooldown(ref canSpawnShard, manaCooldown, mana, () => canSpawnShard = !canSpawnShard);
-    }
-
-    public void Damage()
-    {
-        health -= 10;
-        Rb.linearVelocity = new Vector2(Rb.linearVelocity.x, jumpForce);
         StartCoroutine(BlinkRed());
+        uiController.ChangeHealthBar(CurrentHealth, MaxHealth);
 
-        UIController.ChangeHealthBar(health, maxHealth);
-        Debug.Log(health);
-        Debug.Log(maxHealth);
-
-        if (health <= 0)
+        if (CurrentHealth <= 0)
         {
             Die();
         }
@@ -145,9 +133,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator BlinkRed()
     {
-        SpriteRenderer.color = Color.red;
+        spriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        SpriteRenderer.color = Color.white;
+        spriteRenderer.color = Color.white;
     }
 
     private void Die()
@@ -160,7 +148,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Damageable")
         {
-            Damage();
+            Damage(false);
         }
     }
 
@@ -170,26 +158,31 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(coroutine);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void AddHealth(int healthAmount)
     {
-        int bitmask = 1 << collision.gameObject.layer;
-
-        if (bitmask == platformLayer)
-        {
-            transform.SetParent(collision.transform, true);
-        }
-
-        //Debug.Log(Convert.ToString(bitmask, 2).PadLeft(32, '0'));
+        CurrentHealth += healthAmount;
+        uiController.ChangeHealthBar(CurrentHealth, MaxHealth);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void AddMana(int manaAmount)
     {
-        int bitmask = 1 << collision.gameObject.layer;
+        CurrentMana += manaAmount;
+        uiController.ChangeManaBar(CurrentMana, MaxMana);
+    }
 
-        if (bitmask == platformLayer)
-        {
-            transform.SetParent(null, true);
-        }
+    public void AddCoins(int coinsAmount)
+    {
+        Coins += coinsAmount;
+        uiController.UpdateCoins(Coins);
+    }
 
+    public void ChangeObjDir(float objDir)
+    {
+        ObjLastDir = objDir;
+    }
+
+    public void ChangeIsDashing(bool isDashing)
+    {
+        IsDashing = isDashing;
     }
 }

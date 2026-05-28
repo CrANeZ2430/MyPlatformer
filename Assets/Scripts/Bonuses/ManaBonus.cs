@@ -5,13 +5,14 @@ public class ManaBonus : CollectibleItem
     [SerializeField] private Sprite manaParticlesSprite;
     [SerializeField] private int manaToRestore = 10;
 
-    protected override void CollectItem(PlayerController player)
+    protected override void CollectItem(GameObject player)
     {
-        if (player.mana != player.maxMana)
+        var resourceChanger = player.GetComponent<IResourceMutable>();
+
+        if (resourceChanger.CurrentMana < resourceChanger.MaxMana)
         {
-            player.mana += manaToRestore;
-            player.UIController.ChangeManaBar(player.mana, player.maxMana);
-            DestroyBonus(manaParticlesSprite, gameObject);
+            resourceChanger.AddMana(manaToRestore);
+            DestroyBonus(manaParticlesSprite);
         }
     }
 }

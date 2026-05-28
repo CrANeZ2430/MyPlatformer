@@ -20,7 +20,7 @@ public class UIController : MonoBehaviour
         manaBar.fillAmount = (float)currentMana / maxMana;
     }
 
-    public void ManaCooldown(ref bool canSpawnShard, int manaCooldown, int mana, Action onCooldownComplete)
+    public void ManaCooldown(ref bool canSpawnShard, float manaCooldown, int mana, Action onCooldownComplete)
     {
         canSpawnShard = false;
 
@@ -35,7 +35,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public IEnumerator CooldownRoutine(int manaCooldown, Action onCooldownComplete)
+    public IEnumerator CooldownRoutine(float manaCooldown, Action onCooldownComplete)
     {
         manaCooldownImage.fillAmount = 0f;
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5512068861098984972}
   m_Layer: 0
   m_Name: Coin
-  m_TagString: CoinBonus
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 6315422279210173436}
   m_Layer: 0
   m_Name: Coin
-  m_TagString: CoinBonus
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -141,7 +141,7 @@ Transform:
   m_GameObject: {fileID: 6659517175835854457}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.7105193, y: 2.4758303, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -198,3 +198,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CoinBonus
   bonusDestroyedParticles: {fileID: 2672709329915448552, guid: 2a4adbe9f60997d4faa95fc6bf8678df, type: 3}
   coinParticlesSprite: {fileID: 299946524, guid: 63f06d57a95ffd74895a05e25f4290db, type: 3}
+  coinsToAdd: 1
