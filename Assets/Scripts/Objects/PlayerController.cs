@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
 
     [SerializeField] private LayerMask groundLayer, platformLayer;
     [SerializeField] private GameObject manaShard;
+    [SerializeField] private Animator animator;
 
     private bool canSpawnShard = true;
 
@@ -96,6 +98,11 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
             if (Input.GetAxisRaw("Horizontal") != 0f)
             {
                 ObjLastDir = Input.GetAxisRaw("Horizontal");
+                animator.SetBool("isWalking", true);
+            }
+            else
+            {
+                animator.SetBool("isWalking", false);
             }
 
             if (spriteRenderer != null)
