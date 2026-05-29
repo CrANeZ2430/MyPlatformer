@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
 
     private bool canSpawnShard = true;
 
+    private bool isDeathSequenceRunning = false;
+
+    private float deathSequenceTimer = 0.5f;
+
     private Rigidbody2D rb;
     private UIController uiController;
     private SpriteRenderer spriteRenderer;
@@ -75,7 +79,6 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
             int combinedMask = groundLayer.value | platformLayer.value;
             IsGrounded = Physics2D.OverlapCircle(groundCheckTransform.position, checkRadius, combinedMask);
 
-            // --- НОВІ РЯДКИ ДЛЯ АНІМАЦІЇ СТРИБКА ТА ПАДІННЯ ---
             if (animator != null)
             {
                 animator.SetBool("IsGrounded", IsGrounded);
@@ -155,6 +158,20 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
 
     private void Die()
     {
+        if (!isDeathSequenceRunning)
+        {
+            isDeathSequenceRunning = true;
+            rb.linearVelocity = Vector2.zero;
+            rb.isKinematic = true;
+            animator.SetTrigger("Die");
+            StartCoroutine(RunDeathSequence());
+        }
+    }
+
+    private IEnumerator RunDeathSequence()
+    {
+        yield return new WaitForSeconds(deathSequenceTimer);
+
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
