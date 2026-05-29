@@ -74,6 +74,14 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
         {
             int combinedMask = groundLayer.value | platformLayer.value;
             IsGrounded = Physics2D.OverlapCircle(groundCheckTransform.position, checkRadius, combinedMask);
+
+            // --- НОВІ РЯДКИ ДЛЯ АНІМАЦІЇ СТРИБКА ТА ПАДІННЯ ---
+            if (animator != null)
+            {
+                animator.SetBool("IsGrounded", IsGrounded);
+                animator.SetFloat("yVelocity", rb.linearVelocity.y);
+            }
+
         }
     }
 
@@ -159,7 +167,6 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
         }
     }
 
-    //for bonuses pickups
     public void ExecuteCoroutine(IEnumerator coroutine)
     {
         StartCoroutine(coroutine);
