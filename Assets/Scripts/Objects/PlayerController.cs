@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -14,8 +15,13 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
 
     [SerializeField] private LayerMask groundLayer, platformLayer;
     [SerializeField] private GameObject manaShard;
+    [SerializeField] private Animator animator;
 
     private bool canSpawnShard = true;
+
+    private bool isDeathSequenceRunning = false;
+
+    private float deathSequenceTimer = 0.5f;
 
     private Rigidbody2D rb;
     private UIController uiController;
@@ -72,6 +78,13 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
         {
             int combinedMask = groundLayer.value | platformLayer.value;
             IsGrounded = Physics2D.OverlapCircle(groundCheckTransform.position, checkRadius, combinedMask);
+
+            if (animator != null)
+            {
+                animator.SetBool("IsGrounded", IsGrounded);
+                animator.SetFloat("yVelocity", rb.linearVelocity.y);
+            }
+
         }
     }
 
@@ -96,6 +109,11 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
             if (Input.GetAxisRaw("Horizontal") != 0f)
             {
                 ObjLastDir = Input.GetAxisRaw("Horizontal");
+                animator.SetBool("isWalking", true);
+            }
+            else
+            {
+                animator.SetBool("isWalking", false);
             }
 
             if (spriteRenderer != null)
@@ -140,6 +158,20 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
 
     private void Die()
     {
+        if (!isDeathSequenceRunning)
+        {
+            isDeathSequenceRunning = true;
+            rb.linearVelocity = Vector2.zero;
+            rb.isKinematic = true;
+            animator.SetTrigger("Die");
+            StartCoroutine(RunDeathSequence());
+        }
+    }
+
+    private IEnumerator RunDeathSequence()
+    {
+        yield return new WaitForSeconds(deathSequenceTimer);
+
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
@@ -152,7 +184,6 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
         }
     }
 
-    //for bonuses pickups
     public void ExecuteCoroutine(IEnumerator coroutine)
     {
         StartCoroutine(coroutine);
