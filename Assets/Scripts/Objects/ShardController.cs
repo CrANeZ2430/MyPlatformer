@@ -6,7 +6,6 @@ public class ShardController : MonoBehaviour
     [SerializeField] private float shardSpeed;
     [SerializeField] private LayerMask groundLayer, platformLayer;
     [SerializeField] private string destroyableTag = "Destroyable";
-    [SerializeField] private float destructionRadius = 0.75f;
 
     private float shardDir;
     private Rigidbody2D shardRb;
