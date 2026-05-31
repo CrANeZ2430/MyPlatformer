@@ -60,7 +60,8 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
 
     void Update()
     {
-        Move();
+        if (!isDeathSequenceRunning)
+            Move();
 
         if (Input.GetKeyDown(KeyCode.F) && canSpawnShard)
         {
@@ -163,7 +164,13 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
             rb.linearVelocity = Vector2.zero;
             //rb.isKinematic = true;
             rb.bodyType = RigidbodyType2D.Kinematic;
-            animator.SetTrigger("Die");
+            if (animator != null)
+            {
+                animator.SetBool("isWalking", false);
+                animator.SetBool("IsGrounded", true);
+                animator.SetFloat("yVelocity", 0f);
+                animator.SetTrigger("Die");
+            }
             StartCoroutine(RunDeathSequence());
         }
     }
