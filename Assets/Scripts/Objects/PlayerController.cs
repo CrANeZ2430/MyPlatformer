@@ -11,23 +11,23 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
     [SerializeField] private float checkRadius = 0.15f;
     [SerializeField] private int maxHealth;
     [SerializeField] private int maxMana;
+    [SerializeField] private float coyoteTimeDuration = 0.15f;
+
 
     [SerializeField] private LayerMask groundLayer, platformLayer;
     [SerializeField] private GameObject manaShard;
     [SerializeField] private Animator animator;
 
     private bool canSpawnShard = true;
-
     private bool isDeathSequenceRunning = false;
-
     private float deathSequenceTimer = 0.5f;
+    private float coyoteTimeCounter;
 
     private Rigidbody2D rb;
     private UIController uiController;
     private SpriteRenderer spriteRenderer;
     
     public bool IsGrounded {get; private set;}
-
     public int MaxHealth { get; private set;}
     public int CurrentHealth { get; private set;}
     public int MaxMana { get; private set;}
@@ -79,6 +79,15 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
             int combinedMask = groundLayer.value | platformLayer.value;
             IsGrounded = Physics2D.OverlapCircle(groundCheckTransform.position, checkRadius, combinedMask);
 
+            if (IsGrounded)
+            {
+                coyoteTimeCounter = coyoteTimeDuration;
+            }
+            else
+            {
+                coyoteTimeCounter -= Time.fixedDeltaTime;
+            }
+
             if (animator != null)
             {
                 animator.SetBool("IsGrounded", IsGrounded);
@@ -121,7 +130,7 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
                 spriteRenderer.flipX = (ObjLastDir < 0f);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
+            if (Input.GetKeyDown(KeyCode.Space) && coyoteTimeCounter > 0f)
             {
                 Jump();
             }
@@ -131,6 +140,7 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
     public void Jump()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        coyoteTimeCounter = 0f;
     }
 
     public void Damage(bool damagedByPlatform)
