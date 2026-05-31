@@ -11,6 +11,7 @@ public class CameraManager : MonoBehaviour
     [Header("Global Default Cameras")]
     [SerializeField] private GameObject deadzoneCam;
     [SerializeField] private GameObject levelFitCam;
+    //[SerializeField] private GameObject mainCam;
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class CameraManager : MonoBehaviour
         // 2. Reset all priorities back to baseline
         SetPriority(deadzoneCam, 10);
         SetPriority(levelFitCam, 10);
+        //SetPriority(mainCam, 20);
 
         var allVCams = FindObjectsByType<CinemachineVirtualCamera>(FindObjectsSortMode.None);
         foreach (var vcam in allVCams)

@@ -16,7 +16,9 @@ public class DashForwardBonus : CollectibleItem
         var rb = player.GetComponent<Rigidbody2D>();
         var dashController = player.GetComponent<IDashable>();
         var movementController = player.GetComponent<IMoveable>();
+
         coroutineRunner.ExecuteCoroutine(Dash(rb, trailRenderer, dashController, movementController));
+        
         DestroyBonus(dashForwardParticlesSprite);
     }
 

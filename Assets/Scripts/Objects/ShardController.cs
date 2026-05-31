@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class ShardController : MonoBehaviour
 {
     [SerializeField] private float shardSpeed;
     [SerializeField] private LayerMask groundLayer, platformLayer;
+    [SerializeField] private string destroyableTag = "Destroyable";
+    [SerializeField] private float destructionRadius = 0.75f;
 
     private float shardDir;
     private Rigidbody2D shardRb;
@@ -28,12 +31,20 @@ public class ShardController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag(destroyableTag))
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+            return;
+        }
+
         int bitmask = 1 << collision.gameObject.layer;
         int combinedMask = groundLayer.value | platformLayer.value;
 
         if ((bitmask & combinedMask) != 0)
         {
             Destroy(gameObject);
+            return;
         }
     }
 }
