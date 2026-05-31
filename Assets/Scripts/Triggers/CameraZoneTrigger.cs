@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using Cinemachine;
 
 public class CameraZoneTrigger : MonoBehaviour
 {
@@ -13,8 +15,8 @@ public class CameraZoneTrigger : MonoBehaviour
     [SerializeField] private GameObject customCameraForThisZone;
 
     [Header("Level Fit Only")]
-    [SerializeField] private UnityEngine.Tilemaps.Tilemap targetTilemap;
-    [SerializeField] private Cinemachine.CinemachineTargetGroup targetGroup;
+    [SerializeField] private Tilemap targetTilemap;
+    [SerializeField] private CinemachineTargetGroup targetGroup;
 
     private GameObject anchorMin;
     private GameObject anchorMax;

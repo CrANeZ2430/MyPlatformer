@@ -1,14 +1,17 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlatformController : MonoBehaviour
 {
     [SerializeField] private Transform[] positions;
     [SerializeField] private float platformSpeed;
+    [SerializeField] private float platformCooldown;
     [SerializeField] private string playerTag;
     [SerializeField] private LayerMask groundLayer;
 
     private int currentIndex = 0;
     private bool movingForward = true;
+    private bool canMove = true;
 
     void Update()
     {
@@ -18,30 +21,35 @@ public class PlatformController : MonoBehaviour
         {
             var player = hit.GetComponent<IDamageable>();
             player.Damage(true);
-            AdvanceToNextTarget();
+            ChangeTarget();
         }
 
         if (hit != null && (groundLayer.value & (1<<hit.gameObject.layer))!= 0)
         {
-            AdvanceToNextTarget();
+            ChangeTarget();
         }
 
         if (positions == null || positions.Length == 0) return;
 
         if (Vector2.Distance(transform.position, positions[currentIndex].position) < 0.01f)
         {
-            AdvanceToNextTarget();
+            ChangeTarget();
         }
 
-        transform.position = Vector2.MoveTowards(
-            transform.position, 
-            positions[currentIndex].position, 
-            Time.deltaTime * platformSpeed
-        );
+        if (canMove)
+        {
+            transform.position = Vector2.MoveTowards(
+                transform.position, 
+                positions[currentIndex].position, 
+                Time.deltaTime * platformSpeed
+                );
+        }
     }
 
-    private void AdvanceToNextTarget()
+    private void ChangeTarget()
     {
+        canMove = false;
+
         if (positions.Length <= 1) return;
 
         if (currentIndex == positions.Length - 1 && movingForward == true)
@@ -54,6 +62,15 @@ public class PlatformController : MonoBehaviour
         }
 
         currentIndex += movingForward ? 1 : -1;
+
+        StartCoroutine(PlatformAwait());
+    }
+
+    private IEnumerator PlatformAwait()
+    {
+        yield return new WaitForSeconds(platformCooldown);
+
+        canMove = true;
     }
 
     void OnCollisionEnter2D(Collision2D collision)

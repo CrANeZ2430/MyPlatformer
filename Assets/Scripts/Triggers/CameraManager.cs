@@ -1,4 +1,6 @@
 using UnityEngine;
+using Cinemachine;
+using UnityEngine.Tilemaps;
 
 public enum CameraMode { Deadzone, LevelFit, Custom }
 
@@ -16,29 +18,27 @@ public class CameraManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void SwitchCameraMode(CameraMode mode, GameObject specificCustomCam, UnityEngine.Tilemaps.Tilemap tilemap, Cinemachine.CinemachineTargetGroup targetGroup, GameObject anchorMin, GameObject anchorMax, bool instant)
+    public void SwitchCameraMode(CameraMode mode, GameObject specificCustomCam, Tilemap tilemap, CinemachineTargetGroup targetGroup, GameObject anchorMin, GameObject anchorMax, bool instant)
     {
         if (instant)
         {
             // This force-bypasses the active transition for the next frame swap
-            #if UNITY_6000_0_OR_NEWER
-            var brain = Object.FindFirstObjectByType<Cinemachine.CinemachineBrain>();
+            var brain = FindFirstObjectByType<CinemachineBrain>();
             if (brain != null)
             {
                 // This forces an immediate cut, bypassing transition curves entirely
-                brain.m_DefaultBlend.m_Style = Cinemachine.CinemachineBlendDefinition.Style.Cut;
+                brain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
                 
                 // We will restore it a split second later using a hidden invoke loop
                 Invoke(nameof(RestoreNormalBlendStyle), 0.05f);
             }
-            #endif
         }
 
         // 2. Reset all priorities back to baseline
         SetPriority(deadzoneCam, 10);
         SetPriority(levelFitCam, 10);
 
-        var allVCams = Object.FindObjectsByType<Cinemachine.CinemachineVirtualCamera>(FindObjectsSortMode.None);
+        var allVCams = FindObjectsByType<CinemachineVirtualCamera>(FindObjectsSortMode.None);
         foreach (var vcam in allVCams)
         {
             if (vcam.gameObject != deadzoneCam && vcam.gameObject != levelFitCam)
@@ -72,7 +72,7 @@ public class CameraManager : MonoBehaviour
         // 4. Fire the priority boost
         if (targetCamObj != null)
         {
-            var vcam = targetCamObj.GetComponent<Cinemachine.CinemachineVirtualCamera>();
+            var vcam = targetCamObj.GetComponent<CinemachineVirtualCamera>();
             if (vcam != null)
             {
                 vcam.Priority = 20;
@@ -82,11 +82,11 @@ public class CameraManager : MonoBehaviour
 
     private void RestoreNormalBlendStyle()
     {
-        var brain = Object.FindFirstObjectByType<Cinemachine.CinemachineBrain>();
+        var brain = FindFirstObjectByType<CinemachineBrain>();
         if (brain != null)
         {
             // Restore your normal default smooth animation style (EaseInOut)
-            brain.m_DefaultBlend.m_Style = Cinemachine.CinemachineBlendDefinition.Style.EaseInOut;
+            brain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
         }
     }
 
@@ -94,12 +94,12 @@ public class CameraManager : MonoBehaviour
     {
         if (camObj != null)
         {
-            var vcam = camObj.GetComponent<Cinemachine.CinemachineVirtualCamera>();
+            var vcam = camObj.GetComponent<CinemachineVirtualCamera>();
             if (vcam != null) vcam.Priority = priority;
         }
     }
 
-    private void UpdateBounds(UnityEngine.Tilemaps.Tilemap tilemap, Cinemachine.CinemachineTargetGroup targetGroup, GameObject min, GameObject max)
+    private void UpdateBounds(Tilemap tilemap, CinemachineTargetGroup targetGroup, GameObject min, GameObject max)
     {
         Bounds bounds = tilemap.localBounds;
         min.transform.position = tilemap.transform.TransformPoint(bounds.min);

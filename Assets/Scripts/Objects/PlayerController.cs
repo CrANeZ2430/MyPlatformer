@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -41,7 +40,7 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        uiController =  Object.FindFirstObjectByType<UIController>();
+        uiController =  GetComponent<UIController>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         
         if (spriteRenderer == null)
@@ -162,7 +161,8 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
         {
             isDeathSequenceRunning = true;
             rb.linearVelocity = Vector2.zero;
-            rb.isKinematic = true;
+            //rb.isKinematic = true;
+            rb.bodyType = RigidbodyType2D.Kinematic;
             animator.SetTrigger("Die");
             StartCoroutine(RunDeathSequence());
         }
