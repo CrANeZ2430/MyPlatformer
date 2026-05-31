@@ -2,5 +2,5 @@ using System;
 
 public interface IDamageable
 {
-    void Damage(Action onDamage = null);
+    void Damage(int damage, Action onDamage = null);
 }

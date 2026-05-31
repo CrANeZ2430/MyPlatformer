@@ -1,42 +1,38 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
+    [SerializeField] private int maxHealth = 30;
     [SerializeField] private Transform[] positions;
     [SerializeField] private float enemySpeed;
     [SerializeField] private float enemyCooldown;
     [SerializeField] private string playerTag;
-    //[SerializeField] private LayerMask groundLayer;
+    [SerializeField] private AnimationClip deathAnimation;
 
+    private int currentHealth;
     private int currentIndex = 0;
     private bool movingForward = true;
     private bool canMove = true;
+    private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     void Start()
     {
+        currentHealth = maxHealth;
+
         if (positions != null && positions.Length > 0)
         {
             FlipFacingDirection();
         }
+
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
     {
-        // var hit = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y-0.25f), new Vector2(1.9f, 0.01f), 0f);
-
-        // if (hit != null && hit.CompareTag(playerTag) && hit.GetComponent<IMoveable>().IsGrounded)
-        // {
-        //     var player = hit.GetComponent<IDamageable>();
-        //     player.Damage(true);
-        //     ChangeTarget();
-        // }
-
-        // if (hit != null && (groundLayer.value & (1<<hit.gameObject.layer))!= 0)
-        // {
-        //     ChangeTarget();
-        // }
-
         if (positions == null || positions.Length == 0) return;
 
         if (Vector2.Distance(transform.position, positions[currentIndex].position) < 0.01f)
@@ -52,6 +48,30 @@ public class Enemy : MonoBehaviour
                 Time.deltaTime * enemySpeed
                 );
         }
+    }
+
+    public void Damage(int damage, Action onDamage)
+    {
+        currentHealth -= damage;
+
+        onDamage?.Invoke();
+        StartCoroutine(BlinkRed());
+        
+        if (currentHealth <= 0)
+        {
+            StartCoroutine(DeathRoutine());
+        }
+    }
+
+    private IEnumerator DeathRoutine()
+    {
+        canMove = false;
+
+        animator.SetBool("isDying", true);
+        
+        yield return new WaitForSeconds(deathAnimation.length);
+
+        Destroy(gameObject);
     }
 
     private void ChangeTarget()
@@ -97,6 +117,27 @@ public class Enemy : MonoBehaviour
         {
             // Face left (negate the X scale)
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+    }
+
+    private IEnumerator BlinkRed()
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = Color.white;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag(playerTag))
+        {
+            var damageable = collision.gameObject.GetComponent<IDamageable>();
+
+            damageable.Damage(damage:-10, () =>
+            {
+                var rb = collision.gameObject.GetComponent<Rigidbody2D>();
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, 10f);
+            });
         }
     }
 }

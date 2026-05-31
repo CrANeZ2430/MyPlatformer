@@ -5,6 +5,8 @@ public class ShardController : MonoBehaviour
     [SerializeField] private float shardSpeed;
     [SerializeField] private LayerMask groundLayer, platformLayer;
     [SerializeField] private string destroyableTag = "Destroyable";
+    [SerializeField] private string enemyTag = "Enemy";
+    [SerializeField] int damageAmount = 10;
 
     private float shardDir;
     private Rigidbody2D shardRb;
@@ -32,6 +34,21 @@ public class ShardController : MonoBehaviour
         if (collision.CompareTag(destroyableTag))
         {
             Destroy(collision.gameObject);
+            Destroy(gameObject);
+            return;
+        }
+
+        if (collision.CompareTag(enemyTag))
+        {
+            var damageable = collision.GetComponent<IDamageable>();
+            damageable.Damage(damageAmount, () => 
+                {
+                    Rigidbody2D enemyRb = collision.GetComponent<Rigidbody2D>();
+                    if (enemyRb != null)
+                    {
+                        enemyRb.AddForce(new Vector2(shardDir * 5f, 2f), ForceMode2D.Impulse);
+                    }
+                });
             Destroy(gameObject);
             return;
         }

@@ -20,7 +20,7 @@ public class PlatformController : MonoBehaviour
         if (hit != null && hit.CompareTag(playerTag) && hit.GetComponent<IMoveable>().IsGrounded)
         {
             var player = hit.GetComponent<IDamageable>();
-            player.Damage();
+            player.Damage(damage:-10);
             ChangeTarget();
         }
 

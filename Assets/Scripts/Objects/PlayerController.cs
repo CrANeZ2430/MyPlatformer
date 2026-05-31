@@ -144,13 +144,13 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
         coyoteTimeCounter = 0f;
     }
 
-    public void Damage(Action onDamage)
+    public void Damage(int damage, Action onDamage)
     {
-        AddHealth(healthAmount:-10);
+        AddHealth(damage);
 
         onDamage?.Invoke();
-
         StartCoroutine(BlinkRed());
+        
         uiController.ChangeHealthBar(CurrentHealth, MaxHealth);
 
         if (CurrentHealth <= 0)
@@ -197,7 +197,7 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
     {
         if (collision.gameObject.tag == "Damageable")
         {
-            Damage(() => rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce));
+            Damage(damage:-10, () => rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce));
         }
     }
 
