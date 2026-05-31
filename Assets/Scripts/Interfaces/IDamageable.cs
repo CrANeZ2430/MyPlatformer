@@ -1,4 +1,6 @@
+using System;
+
 public interface IDamageable
 {
-    void Damage(bool damagedByPlatform);
+    void Damage(Action onDamage = null);
 }

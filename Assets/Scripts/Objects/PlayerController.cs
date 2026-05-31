@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -143,12 +144,11 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
         coyoteTimeCounter = 0f;
     }
 
-    public void Damage(bool damagedByPlatform)
+    public void Damage(Action onDamage)
     {
         AddHealth(healthAmount:-10);
 
-        if (!damagedByPlatform)
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        onDamage?.Invoke();
 
         StartCoroutine(BlinkRed());
         uiController.ChangeHealthBar(CurrentHealth, MaxHealth);
@@ -197,7 +197,7 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
     {
         if (collision.gameObject.tag == "Damageable")
         {
-            Damage(false);
+            Damage(() => rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce));
         }
     }
 
