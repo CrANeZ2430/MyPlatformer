@@ -6,7 +6,7 @@ public class PlatformController : MonoBehaviour
     [SerializeField] private Transform[] positions;
     [SerializeField] private float platformSpeed;
     [SerializeField] private float platformCooldown;
-    [SerializeField] private string playerTag;
+    [SerializeField] private string playerTag = "Player", boxTag = "Box";
     [SerializeField] private LayerMask groundLayer;
 
     private int currentIndex = 0;
@@ -75,7 +75,7 @@ public class PlatformController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(playerTag))
+        if (collision.gameObject.CompareTag(playerTag) || collision.gameObject.CompareTag(boxTag))
         {
             collision.transform.SetParent(transform);
         }
@@ -83,7 +83,7 @@ public class PlatformController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(playerTag))
+        if (collision.gameObject.CompareTag(playerTag) || collision.gameObject.CompareTag(boxTag))
         {
             collision.transform.SetParent(null);
         }
