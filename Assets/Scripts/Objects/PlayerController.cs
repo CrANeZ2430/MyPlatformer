@@ -215,8 +215,18 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
 
     public void AddMana(int manaAmount)
     {
-        CurrentMana += manaAmount;
-        uiController.ChangeManaBar(CurrentMana, MaxMana);
+        if (CurrentMana != 0)
+        {
+            CurrentMana += manaAmount;
+            uiController.ChangeManaBar(CurrentMana, MaxMana);
+        }
+        else
+        {
+            CurrentMana += manaAmount;
+            canSpawnShard = true;
+            uiController.ChangeManaBar(CurrentMana, MaxMana);
+            uiController.ReloadManaCooldown();
+        }
     }
 
     public void AddCoins(int coinsAmount)
