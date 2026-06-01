@@ -31,6 +31,7 @@ public class LoadLevelSelector : MonoBehaviour
             {
                 coinTexts[i].text = PlayerPrefs.GetInt(levels[i]).ToString().PadLeft(3, '0');
                 if (buttonImage != null) buttonImage.color = Color.green;
+                Debug.Log($"{PlayerPrefs.GetInt(levels[i])} - {levels[i]}");
             }
             else
             {
