@@ -9041,6 +9041,10 @@ PrefabInstance:
       value: FinishLevelFlag
       objectReference: {fileID: 0}
     - target: {fileID: 7670718843495415905, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
+      propertyPath: coinsText
+      value: 
+      objectReference: {fileID: 1637801488}
+    - target: {fileID: 7670718843495415905, guid: 83cc10b0e6dd54de7b8174b1472d12ec, type: 3}
       propertyPath: levelCompleteUI
       value: 
       objectReference: {fileID: 1307440315}

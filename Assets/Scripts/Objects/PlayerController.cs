@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour, IResourceMutable, ICoroutineRunne
 
     void Start()
     {
+        Time.timeScale = 1f;
         MaxHealth = maxHealth;
         MaxMana = maxMana;
         CurrentHealth = MaxHealth;
