@@ -19,19 +19,25 @@ public class CameraManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void SwitchCameraMode(CameraMode mode, GameObject specificCustomCam, Tilemap tilemap, CinemachineTargetGroup targetGroup, GameObject anchorMin, GameObject anchorMax, bool instant)
+    public void SwitchCameraMode(CameraMode mode, GameObject specificCustomCam, Tilemap tilemap, CinemachineTargetGroup targetGroup, GameObject anchorMin, GameObject anchorMax, bool instant, float blendTime = 2.0f)
     {
-        if (instant)
+        // 1. Handle blend styles and custom blend times
+        var brain = FindFirstObjectByType<CinemachineBrain>();
+        if (brain != null)
         {
-            // This force-bypasses the active transition for the next frame swap
-            var brain = FindFirstObjectByType<CinemachineBrain>();
-            if (brain != null)
+            if (instant)
             {
-                // This forces an immediate cut, bypassing transition curves entirely
+                // Forces an immediate cut, bypassing transition curves entirely
                 brain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
                 
                 // We will restore it a split second later using a hidden invoke loop
                 Invoke(nameof(RestoreNormalBlendStyle), 0.05f);
+            }
+            else
+            {
+                // Apply the custom transition style and duration dynamically
+                brain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
+                brain.m_DefaultBlend.m_Time = blendTime;
             }
         }
 

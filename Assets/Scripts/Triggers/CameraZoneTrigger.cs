@@ -18,6 +18,9 @@ public class CameraZoneTrigger : MonoBehaviour
     [SerializeField] private Tilemap targetTilemap;
     [SerializeField] private CinemachineTargetGroup targetGroup;
 
+    [Header("Other Configurations")]
+    [SerializeField] float blendTime = 1f;
+
     private GameObject anchorMin;
     private GameObject anchorMax;
 
@@ -42,7 +45,8 @@ public class CameraZoneTrigger : MonoBehaviour
                     targetGroup, 
                     anchorMin, 
                     anchorMax,
-                    instantAnimation 
+                    instantAnimation,
+                    blendTime
                 );
             }
             else
