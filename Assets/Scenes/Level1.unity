@@ -11908,6 +11908,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 630642169}
     - target: {fileID: 2762741370877178329, guid: e87956c070d9943159f98fad6828cd5f, type: 3}
+      propertyPath: instantAnimation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762741370877178329, guid: e87956c070d9943159f98fad6828cd5f, type: 3}
       propertyPath: customCameraForThisZone
       value: 
       objectReference: {fileID: 1031013808}
