@@ -12,7 +12,7 @@ This project was developed with a strong focus on responsive controls, custom fr
 * Environmental Hazards: Moving platforms, damageable enemies, and spike traps.
 
 ## 🛠 Tech Stack & Architecture
-* Engine: Unity 6000.3.14f1 LTS
+* Engine: Unity 6000.3.15f1 LTS
 * Language: C#
 * Art Software: Aseprite
 * Version Control: Git / GitHub
