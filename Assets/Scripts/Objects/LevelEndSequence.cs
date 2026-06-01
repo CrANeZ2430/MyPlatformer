@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class LevelEndSequence : MonoBehaviour
@@ -9,6 +10,7 @@ public class LevelEndSequence : MonoBehaviour
     [Header("References")]
     [SerializeField] private Animator flagAnimator;
     [SerializeField] private GameObject levelCompleteUI;
+    [SerializeField] private TMP_Text coinsText;
 
     private bool isSequenceTriggered = false;
 
@@ -29,5 +31,10 @@ public class LevelEndSequence : MonoBehaviour
 
         Time.timeScale = 0f;
         levelCompleteUI.SetActive(true);
+
+        var coins = int.Parse(coinsText.text);
+
+        PlayerPrefs.SetInt(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, coins);
+        PlayerPrefs.Save();
     }
 }
