@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CollectibleItem">
+    <Position X="5.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgQAAAAAAAAAAAAAEAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Bonuses\CollectibleItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnityEngine.MonoBehaviour" Collapsed="true">
+    <Position X="5.25" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="CoinBonus">
+    <Position X="0.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAEAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Bonuses\CoinBonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DashBackwardsBonus">
+    <Position X="3" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAGAAAAAAAAAAAAAAAQAAAAgAAAEAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Bonuses\DashBackwardBonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DashForwardBonus">
+    <Position X="5.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAEAAAAAAAAAAAAAAAQAABAgAAAEAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Bonuses\DashForwardBonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoubleJumpBonus">
+    <Position X="7.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAACAAAA=</HashCode>
+      <FileName>Assets\Scripts\Bonuses\DoubleJumpBonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HealthBonus">
+    <Position X="9.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAIAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Bonuses\HealthBonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManaBonus">
+    <Position X="12" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAUAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Bonuses\ManaBonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Enemy">
+    <Position X="15.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAhISYACAgACSQIgAAIAAAAAAEAAAAAABgAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Objects\EnemyController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LevelEndSequence">
+    <Position X="19.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAQAAAoAAAAAAEACAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Objects\LevelEndSequence.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TreasureChest">
+    <Position X="24.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAIAIAQAAAAAAAAAAAAAQAEAAAAAIAAAAAEAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Objects\LootChest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlatformController">
+    <Position X="17.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAhIAAAAAgAECQAgAAIAAAAQAAAAAAAQBgAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Objects\PlatformController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerController">
+    <Position X="22" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAKIE6AACCAlIAAACEQQcQSAAWAkAANgqAAAIUA=</HashCode>
+      <FileName>Assets\Scripts\Objects\PlayerController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ShardController">
+    <Position X="26.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABRQAAAAACAAAAAAAAAAAAAACUCAEAAAAAAgABAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Objects\ShardController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LoadLevelSelector">
+    <Position X="0.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAACAQAAAQBAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\LoadLevelSelector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainMenu">
+    <Position X="6" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAABEAAAAIAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\MainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuController">
+    <Position X="10.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAgACAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\MenuController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PauseManager">
+    <Position X="3" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAkAACAAAAAAAAAAGgAAAAAAAACAAACAECgAIAA=</HashCode>
+      <FileName>Assets\Scripts\UI\PauseManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIController">
+    <Position X="8.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAwAAAAhAAAAEAAEACAAAAAAAIAQAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\UIController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CameraManager">
+    <Position X="12.75" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAIAAAAAIAAAAAAAAAAAAAQCAABAAAAkA=</HashCode>
+      <FileName>Assets\Scripts\Triggers\CameraManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CameraZoneTrigger">
+    <Position X="15.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAISAAAAQAAEAAAAAgAAAAAAAAAAAAQAIAAAAAEQ=</HashCode>
+      <FileName>Assets\Scripts\Triggers\CameraZoneTrigger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="ICoroutineRunner">
+    <Position X="9.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interfaces\ICoroutineRunner.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IDamageable">
+    <Position X="11" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interfaces\IDamageable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IDashable">
+    <Position X="1.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interfaces\IDashable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IMoveable">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAQAAAAAAAAAEACAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interfaces\IMoveable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IResourceMutable">
+    <Position X="3.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAABAAAACEQAAAAAAAAgAAAAAAAAIQA=</HashCode>
+      <FileName>Assets\Scripts\Interfaces\IResourceMutable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="CameraMode">
+    <Position X="18" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAgACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Triggers\CameraManager.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
